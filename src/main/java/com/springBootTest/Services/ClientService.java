@@ -1,6 +1,7 @@
 package com.springBootTest.Services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,27 @@ public class ClientService {
 	}
 	
 	
-	public List<Client> getClient(){
+	public List<Client> getClients(){
 		return clientRepository.findAll(); 
 		
 	}
 	
 	public void addClient(Client c) {
 		 clientRepository.save(c);
+	}
+
+
+	public boolean updateClient(int id, Client updatedClient) {
+		
+		return true;
+	}
+	
+	public void deleteClient(Client c) {
+		clientRepository.delete(c);
+	}
+	
+	public Client findClient(int id){
+		Optional<Client> c = clientRepository.findById(id);
+		return c.isPresent() ? c.get() : null ;
 	}
 }
