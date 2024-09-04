@@ -16,7 +16,7 @@ import com.springBootTest.Beans.Client;
 import com.springBootTest.Services.ClientService;
 
 @RestController
-@RequestMapping(path = "api/clients")
+@RequestMapping(path = "api/client")
 public class ClientController {
 	
 	private final ClientService clientService; 
@@ -38,7 +38,7 @@ public class ClientController {
         return "Client added successfully!";
     }
     
-    @PutMapping("/{id}")
+    @PutMapping(path = "update/{id}")
     public String updateClient(@PathVariable("id") int id, @RequestBody Client updatedClient) {
         boolean success = clientService.updateClient(id, updatedClient);
         return success ? "Client updated successfully!" : "Client not found!";
@@ -54,6 +54,11 @@ public class ClientController {
     	clientService.deleteClient(c);
     	return "Delete successfully";
     }
+    
+	@GetMapping(path = "get/{id}")
+	public Client getClient(@PathVariable("id") int id) {
+		return clientService.findClient(id);
+	}
 	
 	
 

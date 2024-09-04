@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.springBootTest.Beans.Client;
 import com.springBootTest.Repositories.ClientRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ClientService {
 	
@@ -20,7 +22,6 @@ public class ClientService {
 		this.clientRepository = clientRepository;
 	}
 	
-	
 	public List<Client> getClients(){
 		return clientRepository.findAll(); 
 		
@@ -29,9 +30,22 @@ public class ClientService {
 	public void addClient(Client c) {
 		 clientRepository.save(c);
 	}
-
-
+	
+	@Transactional
 	public boolean updateClient(int id, Client updatedClient) {
+		Client c= findClient(id);
+		
+		if(c==null)
+			return false;
+		
+		if(updatedClient.getName()!=null)
+			c.setName(updatedClient.getName());
+
+		if(updatedClient.getDdn()!=null)
+			c.setDdn(updatedClient.getDdn());
+
+		if(updatedClient.getFirstName()!=null)
+			c.setFirstName(updatedClient.getFirstName());
 		
 		return true;
 	}
@@ -44,4 +58,6 @@ public class ClientService {
 		Optional<Client> c = clientRepository.findById(id);
 		return c.isPresent() ? c.get() : null ;
 	}
+
+
 }
